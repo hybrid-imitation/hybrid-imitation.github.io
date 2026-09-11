@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Hybrid-Diffusion - Vial Aspiration Experiments</title>
+    <title>Hybrid Imitation Learning - Container Unscrewing Rollouts</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -71,7 +71,7 @@ button.view-toggle#viewToggleBtn {
 
 <!-- Header -->
 <header id="header">
-    <a href="index.html" class="title">Hybrid-Diffusion Models: Combining Open-loop Routines with Visuomotor Diffusion Policies</a>
+    <a href="index.html" class="title">Hybrid Imitation Learning: Teleoperation Augmentation Primitives that Policies Learn to Trigger</a>
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -86,17 +86,25 @@ button.view-toggle#viewToggleBtn {
     <div class="inner">
         <div class="divtitle">
             <article class="col-4 col-12-xsmall work-item">
-                <h2>Container Unscrewing - Hybrid-Diffusion vs Baseline Diffusion</h2>
+                <h2>Container Unscrewing (routine TAP): TAP-triggering policy (Ours) vs baseline Diffusion Policy (DP)</h2>
             </article>
         </div>
 
+        
+        <p>
+            A second arm, not controlled by the policy, holds a container with a threaded cap. The operator positioned the gripper over the cap and triggered the unscrewing routine (close, rotate, open, rotate back, close, rotate, lift). The baseline policy has to reproduce the multi-turn motion from images alone; in its failures it turns the cap once or twice and then lifts while the cap is still threaded.
+            <strong>Ours</strong> is Hybrid Imitation Learning on Diffusion Policy with the learned primitive channel; <strong>DP</strong> is the same Diffusion Policy trained on the same TAP-collected demonstrations without the channel.
+            Seven initial configurations, sampled with the same seed for both policies, each executed three times (21 rollouts per policy): <strong>Ours 14 (67%)</strong> vs <strong>DP 8 (38%)</strong> successes.
+            Below, one representative rollout per configuration and policy.
+        </p>
         <div id="video-sections">
             <!-- Videos inserted by JavaScript -->
         </div>
     <div style="text-align:center; width:100%; margin-top:20px;">
   <img src="files/results_unscrew.png"
-       alt="results"
+       alt="Outcome of every rollout per configuration: HD = Ours (TAP-triggering), D = baseline Diffusion Policy"
        style="display:inline-block; width:720px; max-width:80%; height:auto; object-fit:contain;">
+  <p style="font-size:0.85em; margin-top:8px;">Outcome of all 21 rollouts per policy (pos 1&ndash;7, three repetitions each). HD: Ours; D: baseline Diffusion Policy.</p>
 </div>
 
     </div>
@@ -128,8 +136,8 @@ button.view-toggle#viewToggleBtn {
 let comparisonView = true;
 
 const categories = [
-  { title: "Hybrid-Diffusion", folder: "videos/unscrew_cap/explicit", prefix: "demo_", count: 7 },
-  { title: "Baseline Diffusion", folder: "videos/unscrew_cap/implicit", prefix: "demo_", count: 7 }
+  { title: "Ours (TAP-triggering policy)", folder: "videos/unscrew_cap/explicit", prefix: "demo_", count: 7 },
+  { title: "Baseline Diffusion Policy (DP)", folder: "videos/unscrew_cap/implicit", prefix: "demo_", count: 7 }
 ];
 
 const videoSections = document.getElementById('video-sections');
@@ -152,8 +160,8 @@ function renderVsView(leftCat, rightCat) {
   const maxTrials = Math.max(leftCat.count, rightCat.count);
   for (let i = 1; i <= maxTrials; i++) {
     const trial = i.toString().padStart(2, "0");
-    const leftHtml = i <= leftCat.count ? videoMarkup(leftCat, trial, `Hybrid Diffusion – Trial ${trial}`) : `<div class="trial-col"><h4>Hybrid – Trial ${trial}</h4><p style="text-align:center;color:#666">N/A</p></div>`;
-    const rightHtml = i <= rightCat.count ? videoMarkup(rightCat, trial, `Baseline Diffusion – Trial ${trial}`) : `<div class="trial-col"><h4>Baseline – Trial ${trial}</h4><p style="text-align:center;color:#666">N/A</p></div>`;
+    const leftHtml = i <= leftCat.count ? videoMarkup(leftCat, trial, `Ours – Configuration ${trial}`) : `<div class="trial-col"><h4>Ours – Configuration ${trial}</h4><p style="text-align:center;color:#666">N/A</p></div>`;
+    const rightHtml = i <= rightCat.count ? videoMarkup(rightCat, trial, `DP – Configuration ${trial}`) : `<div class="trial-col"><h4>DP – Configuration ${trial}</h4><p style="text-align:center;color:#666">N/A</p></div>`;
     videoSections.insertAdjacentHTML("beforeend", `<div class="trial-row">${leftHtml}${rightHtml}</div>`);
   }
 }
@@ -168,7 +176,7 @@ function renderGridView(categoriesArr) {
       container.insertAdjacentHTML('beforeend', `
         <div class="video-item">
           <article class="work-item">
-            <h4>trial ${trialNumber}</h4>
+            <h4>configuration ${trialNumber}</h4>
             <video width="320" height="240" controls>
               <source src="${category.folder}/${category.prefix}${trialNumber}.mp4" type="video/mp4">
               Your browser does not support the video tag.

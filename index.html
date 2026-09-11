@@ -1,11 +1,38 @@
-<!DOCTYPE HTML> <html> <head> <title>Hybrid-Diffusion Models: Combining Open-loop Routines with Visuomotor Diffusion Policies</title> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> <link rel="stylesheet" href="assets/css/main.css" /> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <link href="assets/css/llm.css" rel="stylesheet"> <noscript> <link rel="stylesheet" href="assets/css/noscript.css" /> </noscript> </head> <body class="is-preload">
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Hybrid Imitation Learning: Teleoperation Augmentation Primitives that Policies Learn to Trigger</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="assets/css/llm.css" rel="stylesheet">
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	<style>
+		.figrow { display:flex; align-items:flex-start; column-gap:24px; row-gap:16px; flex-wrap:wrap; margin:20px 0; }
+		.figrow .text { flex:1 1 320px; max-width:580px; }
+		.figrow .fig { flex:0 1 420px; }
+		.figrow .fig img, .figrow .fig video { display:block; width:100%; max-width:640px; height:auto; }
+		.figwide img { display:block; width:100%; max-width:1100px; height:auto; margin:12px 0; }
+		.caption { font-size:0.85em; opacity:0.85; margin:6px 0 18px 0; }
+		.table-wrapper { overflow-x:auto; margin-bottom:24px; }
+		.placeholder { border:2px dashed rgba(255,255,255,0.35); border-radius:6px; padding:28px 18px; text-align:center; max-width:640px; margin:12px 0; }
+		.placeholder .big { font-size:1.15em; font-weight:600; margin-bottom:6px; }
+		sup { font-size:0.7em; }
+	</style>
+</head>
+<body class="is-preload">
+
 <!-- Sidebar -->
 <section id="sidebar">
 	<div class="inner">
 		<nav>
 			<ul>
-				<li><a href="#intro">Hybrid-Diffusion</a></li>
-				<li><a href="#eval">Experiments</a></li>
+				<li><a href="#intro">Overview</a></li>
+				<li><a href="#taps">TAPs</a></li>
+				<li><a href="#sim">Simulation</a></li>
+				<li><a href="#real">Real robot</a></li>
+				<li><a href="#deploy">Deployment</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -17,120 +44,283 @@
 	<!-- Intro -->
 	<section id="intro" class="wrapper style1 fullscreen fade-up">
 		<div class="inner">
-			<h2>Hybrid-Diffusion Models: Combining Open-loop Routines with Visuomotor Diffusion Policies</h2>
-			<h3>Jonne Van Haastregt<sup>∗,1</sup>, Bastian Orthmann<sup>∗,1</sup>, Michael C. Welle<sup>1,2</sup>, Yuchong Zhang<sup>2</sup>, Danica Kragic<sup>2</sup></h3>
-			<p>
-				Despite the fact that visuomotor-based policies obtained via imitation learning demonstrate good performances
-				in complex manipulation tasks, they usually struggle to achieve the same accuracy and speed as traditional control based methods. In this work, we introduce Hybrid-Diffusion models that combine open-loop routines with visuomotor diffusion policies.
-				We develop Teleoperation Augmentation Primitives (TAPs) that allow the operator to perform predefined routines, such as locking specific axes, moving to perching waypoints, or triggering task-specific routines seamlessly during demonstrations. Our Hybrid-Diffusion method learns to trigger such TAPs during inference. We validate the method on challenging real-world tasks: Vial Aspiration, Open-Container Liquid Transfer, and container unscrewing.
-			</p>
-
-			<p style="margin:0 0 8px 0;"><strong>Hybrid-Diffusion</strong></p>
-
-			<div style="display:flex; align-items:flex-start; column-gap:24px; flex-wrap:wrap; margin: 20px 0;">
-				<div style="flex:1 1 520px; max-width:580px;">
-					<p style="margin:0;">
-						Overview of our Hybrid-Diffusion Model; during teleoperation, the expert can trigger a
-						Teleoperation Augmentation Primitive (TAP) either via speech or (AR) controller inputs. The
-						Hybrid-Diffusion model learns to also trigger such TAP routines during execution, making use
-						of routines during tasks.
-					</p>
-				</div>
-
-				<div style="flex:0 1 420px;">
-					<img src="files/fig_1_HD.png" alt="figure explaining hybrid diffusion"
-						 style="display:block; width:420px; max-width:100%; height:auto; object-fit:contain;">
-				</div>
-			</div>
-
-			<p></p>
-			<!--a href="files/Hybrid_diffusion_preprint.pdf" target="_blank" download="files/Hybrid_diffusion_preprint.pdf" style="color: red;">Download Preprint</a-->
-			<a href="files/Hybrid_diffusion_preprint.pdf" target="_blank" download="files/Hybrid_diffusion_preprint.pdf" >Download Preprint</a>
-			<p></p>
+			<h2>Hybrid Imitation Learning: Teleoperation Augmentation Primitives that Policies Learn to Trigger</h2>
+			<h3>Jonne Van Haastregt<sup>∗,1</sup>, Bastian Orthmann<sup>∗,1</sup>, Michael C. Welle<sup>∗,1,2</sup>, Yuchong Zhang<sup>2</sup>, Danica Kragic<sup>2</sup></h3>
 			<ul>
 				<li><sup>∗</sup> These authors contributed equally.</li>
 				<li><sup>1</sup> INCAR Robotics AB, Stockholm, Sweden</li>
 				<li><sup>2</sup> KTH Royal Institute of Technology, Stockholm, Sweden</li>
 			</ul>
+
+			<p><strong>Abstract.</strong>
+				What an operator can demonstrate bounds what imitation learning can learn. Teleoperation interfaces map the human body to the robot, so motions that are hard for a human, such as holding an exact orientation, returning to the same viewpoint, or turning a wrist joint several full revolutions, are difficult to demonstrate on most teleoperation interfaces, even when they are trivial for the robot. We introduce <em>Teleoperation Augmentation Primitives</em> (TAPs): axis locks, perching waypoints, pose anchors, and embodiment-specific routines that the operator triggers during a demonstration by speech, an AR menu, or simply with a controller button.
+				TAPs are themselves recorded in the demonstration and can therefore also be learned and invoked by the policy itself.
+				In simulation, where benchmarks provide human demonstrations, we show that augmenting them with TAPs after the fact yields better policies on a wrist-camera-only peg insertion (0.372 to 0.531 success) and on a mug-cleanup task with a learned “remember this pose” anchor (0.203 to 0.323). On a real robot, three tasks show the same pattern: primitives that help the operator do not hurt the policy, and a policy triggering an unscrewing routine succeeds where a plain policy cannot resolve the multi-turn motion from images alone (67% vs. 38% success). We close with an industrial proof-of-concept case leveraging this idea.
+			</p>
+
+			<div class="figrow">
+				<div class="text">
+					<p style="margin:0;">
+						<strong>Overview.</strong> During teleoperation the operator triggers a Teleoperation Augmentation Primitive (TAP) by speech or (AR) controller input; the press and the primitive's motion are recorded with the demonstration. The policy is trained with a discrete primitive channel next to its continuous action and learns to trigger the same primitives at inference time. The mechanism is policy-agnostic: in this work the channel is carried by Diffusion Policy, a behavioural-cloning MLP (BC) and a causal-Transformer behavioural-cloning policy (BC-Transformer).
+					</p>
+				</div>
+				<div class="fig">
+					<img src="files/fig_1_HD.png" alt="Overview of Hybrid Imitation Learning: the operator triggers TAPs during demonstration; the policy learns to trigger the same TAPs">
+				</div>
+			</div>
+
+			<p><strong>Preprint:</strong> coming soon. The paper is currently under review.</p>
 		</div>
 	</section>
 
-	<!-- Eval -->
-	<section id="eval" class="wrapper style3 fade-up">
+	<!-- TAPs -->
+	<section id="taps" class="wrapper style2 fade-up">
 		<div class="inner">
-			<h2>Experiments</h2>
+			<h2>Teleoperation Augmentation Primitives</h2>
 			<p>
-				We evaluated policies trained on three tasks, among seven novel starting positions - each repeated
-				three times.
+				A TAP is a tuple (trigger, routine, parameters): a <em>trigger</em> (the operator's press during demonstration; the policy's channel at execution), a <em>routine</em> that takes over the robot from the trigger until it terminates, and <em>parameters</em> that come from static configuration, from anchors recorded by the operator, or from the robot's proprioception at the trigger. We use four types of TAPs:
+			</p>
+			<ul>
+				<li><strong>Axis locks.</strong> Adding rotation to translation is hard for a human hand. An axis lock fixes one or more of {x, y, z, roll, pitch, yaw} in the tool or base frame: the operator reaches a desired orientation, locks the rotational axes, and completes the translation without holding the orientation by hand; locking x and y gives a pure vertical insertion.</li>
+				<li><strong>Perching waypoints.</strong> A pre-set pose the operator returns to when useful: it brings the scene back into the eye-in-hand camera, so no stationary camera is needed, and splits a long task into shorter segments with a common start.</li>
+				<li><strong>Anchors.</strong> A zero-motion primitive (“remember this pose”): the press records the current end-effector pose, and a later primitive executes relative to it. Anchors are how a learned policy can dynamically integrate information into a routine or a perching waypoint.</li>
+				<li><strong>Routines.</strong> Embodiment-specific motions the operator's body cannot perform through the interface, such as rotating a wrist joint through several full revolutions. The unscrewing routine is <em>close → rotate → open → rotate back → close → rotate → lift</em>, parameterised by the repetitions and the rotation per step. Routines are open-loop in this paper; a closed-loop controller or a sub-policy can be triggered the same way.</li>
+			</ul>
+
+			<div class="figwide">
+				<img src="files/tasks.png" alt="The four TAP types on the four tasks: axis locking (vial aspiration), perching waypoints (open-container liquid transfer), open-loop routine (container unscrewing), anchor (mug cleanup, simulated)">
+			</div>
+			<p class="caption">
+				TAP types. (a) Vial aspiration: the operator locks the rotational axes once the needle is aligned. (b) Open-container liquid transfer: perching waypoints bring the source and the target container into the eye-in-hand view. (c) Container unscrewing: an unscrewing routine grasps, unscrews and lifts the cap. (d) MugCleanup (simulated): an anchor press stores the drawer frame while the open gripper sits behind the handle; after the mug is grasped, a carry routine transports it into that frame and shuts the drawer.
 			</p>
 
-			<img src="files/result_p.png"
-				alt="figure showing the results of evaluating hybrid diffusion vs baseline diffusion"
-				style="display:block; width:45%; max-width:520px; height:auto; object-fit:contain; margin-bottom:18px;">
-
-			<div class="row" style="margin-bottom:20px;">
-				<h3>Open-Container Liquid Transfer</h3>
-
-				<div style="display:flex; align-items:flex-start; column-gap:24px; flex-wrap:wrap; margin-bottom:28px;">
-					<div style="flex:1 1 320px; max-width:480px;">
-						<p style="margin:0;">
-							The robot is equipped with a syringe. The task is to draw the liquid substances from the right chemical container and deposit them into the left container. The TAP Perching-waypoints makes this task easier as it allows the operator to always go to an initial perching waypoint, draw the liquid, activate another perching waypoint that brings the target container in clear view to deposit the liquid.
-						</p>
-					</div>
-
-					<div style="flex:0 1 420px;">
-						<video controls preload="auto" style="width:100%; max-width:640px; height:auto; max-height:60vh; display:block;">
-							<source src="videos/syringe/explicit/demo_05.mp4" type="video/mp4">
-							Your browser does not support the video tag.
-						</video>
-					</div>
+			<h3>Triggering during teleoperation</h3>
+			<div class="figrow">
+				<div class="text">
+					<p style="margin:0;">
+						TAPs are triggered on a Quest-based teleoperation interface by <em>speech</em> (the operator names one of the predefined commands, an embedded Whisper model transcribes it and the closest command executes, with vibration patterns confirming start, end and rejection), through an <em>AR menu</em> over the controller in the headset, or by <em>haptic buttons</em>: experienced operators trigger the same menu blind, with vibration patterns telling them which menu is active. Every press is logged with the demonstration as a channel per primitive.
+					</p>
 				</div>
-
-				<p>All experiments: <a class="button mybutton" href="open_container_liquid_transfer.html" target="_blank">Open-Container Liquid Transfer</a></p>
+				<div class="fig">
+					<img src="files/taps_modalities.png" alt="Three ways to trigger a TAP: speech command, AR interface, controller only with haptic feedback">
+				</div>
 			</div>
 
-			<div class="row" style="margin-bottom:20px;">
-				<h3>Vial Aspiration</h3>
+			<h3>The primitive channel</h3>
+			<p>
+				With K primitives available, a channel p<sub>t</sub> ∈ {−1, +1}<sup>K</sup> is appended to the robot action and the policy is trained on the augmented action [x<sub>t</sub>, p<sub>t</sub>]. While a routine runs, the executed motion is recorded as ordinary actions, so a policy trained <em>without</em> the channel on the same data sees the routine as demonstrated motion. Any policy that regresses an action chunk can regress the channel. At execution a primitive is triggered on a rising edge of its channel while no primitive is active; the primitive takes over until it terminates while the policy keeps predicting, then the policy takes control back.
+			</p>
+		</div>
+	</section>
 
-				<div style="display:flex; align-items:flex-start; column-gap:24px; flex-wrap:wrap; margin-bottom:28px;">
-					<div style="flex:1 1 320px; max-width:480px;">
+	<!-- Simulation -->
+	<section id="sim" class="wrapper style3 fade-up">
+		<div class="inner">
+			<h2>Simulation study</h2>
+			<p>
+				The simulation study asks whether demonstrations with TAPs produce a better policy than without. Since the demonstrations come from benchmarks that predate TAPs, the unassisted control is unbiased. We start from human teleoperation datasets in robosuite: the proficient-human <em>Square</em> demonstrations of robomimic and a seeded subset of the <em>MugCleanup D1</em> demonstrations of MimicGen. A demonstration is replayed from its recorded state up to the point an operator should have activated a TAP, the primitive is executed from that state with observations rendered online, and the demonstration is stitched back into the unassisted one afterwards. The unassisted demonstrations are therefore an identical control: same demonstration names, same split; the only difference is the TAP.
+			</p>
+			<ul>
+				<li><strong>Square</strong> (wrist camera only, no proprioception): the robot grasps a square nut and threads it onto a peg that is out of view while the nut is grasped. The TAP is a perching waypoint above the peg; three waypoints cover the three ways operators grasp the handle. After the perch, the policy performs the insertion itself.</li>
+				<li><strong>MugCleanup</strong> (wrist camera + proprioception): open a drawer, place a mug upright inside, shut the drawer. Two TAPs: an <em>anchor</em> press with the open gripper behind the handle, the last step before the drawer moves, and a <em>carry</em> routine that, once the mug is grasped, transports it into the anchored drawer frame and shuts the drawer.</li>
+			</ul>
+
+			<div class="figwide">
+				<img src="files/sim_overlay_square.png" alt="Square: trajectories of unassisted demonstrations vs TAP-collected demonstrations">
+				<img src="files/sim_overlay_mug.png" alt="MugCleanup: trajectories of unassisted demonstrations vs TAP-collected demonstrations">
+			</div>
+			<p class="caption">
+				The two simulated tasks with visualised trajectories. Left of each pair: unassisted demonstrations, the operator throughout. Right: the same demonstrations TAP-collected: the operator (blue) up to the hand-over, the primitive (orange), and on Square the stitching back to the operator's path after the perch (green); on MugCleanup the star is the anchor press whose pose the policy learns to remember.
+			</p>
+
+			<h3>Main result</h3>
+			<p>
+				Diffusion Policy, three training seeds per condition, 500 seeded initial states per seed, i.e. 1500 episodes per condition; both arms share the demonstrations, split, seeds, architecture, observation, training budget, horizon and success test. “Stage not reached” is the nut never lifted (Square) and the mug never grasped (MugCleanup).
+			</p>
+			<div class="table-wrapper">
+				<table class="alt">
+					<thead>
+						<tr><th>Task</th><th>Demonstrations</th><th>Success</th><th>Stage not reached</th><th>Success | stage</th></tr>
+					</thead>
+					<tbody>
+						<tr><td rowspan="2">Square<br><span style="opacity:0.8">(wrist only)</span></td><td>unassisted</td><td>0.372</td><td>0.207</td><td>0.469</td></tr>
+						<tr><td>TAP</td><td><strong>0.531</strong></td><td>0.225</td><td>0.685</td></tr>
+						<tr><td rowspan="2">MugCleanup<br><span style="opacity:0.8">(wrist + proprio.)</span></td><td>unassisted</td><td>0.203</td><td>0.509</td><td>0.413</td></tr>
+						<tr><td>TAP</td><td><strong>0.323</strong></td><td>0.555</td><td>0.725</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p>
+				TAP-collected demonstrations raise pooled success from 0.372 to 0.531 on Square (Fisher's exact test, p = 2.1×10<sup>−18</sup>) and from 0.203 to 0.323 on MugCleanup (p = 9.3×10<sup>−14</sup>); all paired comparisons on identical initial states are significant. On Square the gap is entirely downstream of the grasp: the fraction of episodes in which the nut is never lifted is unchanged, while success given a lift rises from 0.469 to 0.685. On MugCleanup the TAP arm grasps slightly less often, but converting a grasp into a success is where it gains (0.413 to 0.725).
+			</p>
+
+			<div class="figrow">
+				<div class="fig" style="flex:1 1 320px;">
+					<img src="files/sim_square_main.png" alt="Square, Diffusion Policy: pooled success and result by stage, three seeds as points">
+				</div>
+				<div class="fig" style="flex:1 1 320px;">
+					<img src="files/sim_mug_main.png" alt="MugCleanup, Diffusion Policy: pooled success and result by stage, three seeds as points">
+				</div>
+			</div>
+			<p class="caption">
+				Left: Square. Right: MugCleanup. Pooled success (a) and the same result by stage (b), with the three training seeds as points.
+			</p>
+
+			<h3>Data effect or trigger effect?</h3>
+			<p>
+				To separate what the TAP data contributes from what the learned trigger contributes, we also train on the TAP demonstrations <em>without</em> the channel: the policy sees the routine's motion as demonstrated motion and runs alone at execution, like the unassisted policy.
+			</p>
+			<div class="table-wrapper">
+				<table class="alt">
+					<thead>
+						<tr><th>Task</th><th>unassisted</th><th>TAP data, no channel</th><th>TAP data + channel</th></tr>
+					</thead>
+					<tbody>
+						<tr><td>Square</td><td>0.372</td><td>0.297</td><td><strong>0.531</strong></td></tr>
+						<tr><td>MugCleanup</td><td>0.203</td><td>0.243</td><td><strong>0.323</strong></td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p>
+				On MugCleanup about a third of the gain is in the data, the regular carry being easier to imitate than the operators' own transport, and two thirds come from the learned hand-over. On Square the TAP data on its own <em>costs</em>: the no-channel policy must imitate the perch routine from the wrist image alone, without the end-effector pose the routine itself servos on, and falls below the unassisted control; with the channel the same demonstrations give the best policy.
+			</p>
+
+			<h3>TAPs across policy classes</h3>
+			<p>
+				The primitive channel is an extra regression target, so any policy class whose loss can treat it as one can carry it. On the same two datasets, with the same image encoder, epochs, batch size, seeds and evaluation, we also train a feed-forward behavioural-cloning MLP (BC) and a causal-Transformer behavioural-cloning policy (BC-Transformer). Pooled success over three seeds × 500 episodes:
+			</p>
+			<div class="table-wrapper">
+				<table class="alt">
+					<thead>
+						<tr><th>Task</th><th>Policy</th><th>unassisted</th><th>TAP + channel</th><th>p</th></tr>
+					</thead>
+					<tbody>
+						<tr><td rowspan="3">Square<br><span style="opacity:0.8">(wrist only)</span></td><td>Diffusion Policy</td><td>0.372</td><td><strong>0.531</strong></td><td>2.1×10<sup>−18</sup></td></tr>
+						<tr><td>BC</td><td>0.085</td><td><strong>0.250</strong></td><td>2×10<sup>−34</sup></td></tr>
+						<tr><td>BC-Transformer</td><td>0.263</td><td><strong>0.329</strong></td><td>7×10<sup>−5</sup></td></tr>
+						<tr><td rowspan="2">MugCleanup<br><span style="opacity:0.8">(wrist + proprio.)</span></td><td>Diffusion Policy</td><td>0.203</td><td><strong>0.323</strong></td><td>9.3×10<sup>−14</sup></td></tr>
+						<tr><td>BC</td><td>0.025</td><td><strong>0.074</strong></td><td>3×10<sup>−10</sup></td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p>
+				Every class improves on both tasks: the channel carries across an MLP, a causal Transformer and a diffusion head, in both observation regimes.
+			</p>
+		</div>
+	</section>
+
+	<!-- Real robot -->
+	<section id="real" class="wrapper style1 fade-up">
+		<div class="inner">
+			<h2>Real-robot validation</h2>
+			<p>
+				The real-robot experiments validate the full system end to end on a ViperX 300 S arm with a single eye-in-hand camera and no stationary camera: demonstrations collected with the operator triggering TAPs, a policy that learns to trigger the same TAPs, and rollouts on novel initial conditions. Unlike in simulation, every real demonstration was collected <em>with</em> TAPs, and both policies are trained on that data. <strong>Ours</strong> is Hybrid Imitation Learning instantiated on Diffusion Policy (Hybrid-Diffusion), triggering the primitives it was given; the baseline (<strong>DP</strong>) is the same Diffusion Policy on the same demonstrations without the primitive channel, so it sees each primitive's motion as demonstrated actions and must reproduce it from its observations. The comparison therefore isolates the learned trigger. For each task we sample seven initial configurations with the same seed for both policies and execute each three times, 21 rollouts per policy and task.
+			</p>
+
+			<div class="table-wrapper">
+				<table class="alt">
+					<thead>
+						<tr><th>Task (TAP)</th><th>Policy</th><th>Success</th><th>Fail</th></tr>
+					</thead>
+					<tbody>
+						<tr><td rowspan="2">Vial aspiration<br><span style="opacity:0.8">(axis lock)</span></td><td>Ours</td><td>13 (62%)</td><td>8</td></tr>
+						<tr><td>DP</td><td>12 (57%)</td><td>9</td></tr>
+						<tr><td rowspan="2">Liquid transfer<br><span style="opacity:0.8">(perching waypoints)</span></td><td>Ours</td><td>15 (71%)</td><td>6</td></tr>
+						<tr><td>DP</td><td>13 (62%)</td><td>8</td></tr>
+						<tr><td rowspan="2">Unscrewing<br><span style="opacity:0.8">(routine)</span></td><td>Ours</td><td>14 (67%)</td><td>7</td></tr>
+						<tr><td>DP</td><td>8 (38%)</td><td>13</td></tr>
+					</tbody>
+				</table>
+			</div>
+
+			<img src="files/result_p.png"
+				alt="Per-configuration outcomes of the TAP-triggering policy (HD) and the baseline Diffusion Policy (D) on the three real-robot tasks"
+				style="display:block; width:100%; max-width:560px; height:auto; object-fit:contain; margin-bottom:6px;">
+			<p class="caption">Outcome of every rollout per initial configuration (pos 1–7, three repetitions each). HD: Ours (Hybrid-Diffusion); D: baseline Diffusion Policy.</p>
+
+			<p>
+				In no task does the TAP-triggering policy perform worse than its counterpart. On vial aspiration and liquid transfer the two perform alike: the axis lock and the perching waypoints made the demonstrations clean for <em>both</em> policies, and a policy trained on clean demonstrations can learn to hold an orientation, or to return to a vantage point, without an explicit trigger. On unscrewing the upside appears: the baseline turns the cap once or twice and then lifts while the cap is still threaded, since a closed cap and a cap turned once look nearly identical in the images; the routine turns a fixed number of times, so the hybrid policy removed the cap in every rollout in which it triggered the routine from the right position.
+			</p>
+
+			<div class="row" style="margin-bottom:20px;">
+				<h3>Vial aspiration (axis lock)</h3>
+				<div class="figrow">
+					<div class="text">
 						<p style="margin:0;">
-							The robot is equipped with a syringe and has to draw liquid out of a vial that is mounted on a sphere that enables arbitrary rotations (up to the point no liquid is flowing out of the vial). As the rotational alignment of the syringe needle with the vial is quite challenging the operator makes use of the Axis locking TAP - specifically to lock all rotational axes once the desired rotation is achieved.
+							A syringe-equipped arm draws liquid from a vial mounted on a sphere that permits arbitrary orientation, up to the point where no liquid would flow. Aligning the needle with the vial is the hard part, so the operator locks all rotational axes once the orientation is reached.
 						</p>
 					</div>
-
-					<div style="flex:0 1 420px;">
-						<video controls preload="auto" style="width:100%; max-width:640px; height:auto; max-height:60vh; display:block;">
+					<div class="fig">
+						<video controls preload="metadata" style="max-height:60vh;">
 							<source src="videos/syringe_ball/explicit/demo_02.mp4" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>
 					</div>
 				</div>
-
-				<p>All experiments: <a class="button mybutton" href="vial_aspiration.html" target="_blank">Vial Aspiration</a></p>
+				<p>All rollouts: <a class="button mybutton" href="vial_aspiration.html" target="_blank">Vial Aspiration</a></p>
 			</div>
 
 			<div class="row" style="margin-bottom:20px;">
-				<h3>Container Unscrewing</h3>
-
-				<div style="display:flex; align-items:flex-start; column-gap:24px; flex-wrap:wrap; margin-bottom:28px;">
-					<div style="flex:1 1 320px; max-width:480px;">
+				<h3>Open-container liquid transfer (perching waypoints)</h3>
+				<div class="figrow">
+					<div class="text">
 						<p style="margin:0;">
-							A second robot arm (not controlled by the policy) holds a container with a threaded cap. The task is to bring the robot into position over the container, grasp the lid and unscrew it from the container and place it on the table. In this task, an open-loop routine TAP, specifically an unscrewing routine, is essential for task success. The operator simply brings the robot into position, ready to grasp the lid, and triggers the TAP to initiate the routine.
+							With the same syringe, draw from the right container and deposit into the left. The operator starts from a perching waypoint to draw and triggers a second waypoint that brings the target container into clear view to deposit.
 						</p>
 					</div>
+					<div class="fig">
+						<video controls preload="metadata" style="max-height:60vh;">
+							<source src="videos/syringe/explicit/demo_05.mp4" type="video/mp4">
+							Your browser does not support the video tag.
+						</video>
+					</div>
+				</div>
+				<p>All rollouts: <a class="button mybutton" href="open_container_liquid_transfer.html" target="_blank">Open-Container Liquid Transfer</a></p>
+			</div>
 
-					<div style="flex:0 1 420px;">
-						<video controls preload="auto" style="width:100%; max-width:640px; height:auto; max-height:60vh; display:block;">
+			<div class="row" style="margin-bottom:20px;">
+				<h3>Container unscrewing (routine)</h3>
+				<div class="figrow">
+					<div class="text">
+						<p style="margin:0;">
+							A second arm, not controlled by the policy, holds a container with a threaded cap. The operator positions the gripper over the cap and triggers the unscrewing routine, which grasps the cap, unscrews it and lifts it off, after which the cap is placed on the table. The baseline removes the cap in 8 of 21 rollouts and the hybrid policy in 14.
+						</p>
+					</div>
+					<div class="fig">
+						<video controls preload="metadata" style="max-height:60vh;">
 							<source src="videos/unscrew_cap/explicit/demo_01.mp4" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>
 					</div>
 				</div>
+				<p>All rollouts: <a class="button mybutton" href="unscrew_cap.html" target="_blank">Container Unscrewing</a></p>
+			</div>
+		</div>
+	</section>
 
-				<p>All experiments: <a class="button mybutton" href="unscrew_cap.html" target="_blank">Container Unscrewing</a></p>
+	<!-- Deployment -->
+	<section id="deploy" class="wrapper style2 fade-up">
+		<div class="inner">
+			<h2>Deployment: policy-triggered routines for clutch assembly</h2>
+			<div class="figrow">
+				<div class="text">
+					<p>
+						We applied the same decomposition to an industrial clutch-assembly task as a proof of concept: stacking the discs onto the clutch shaft of a multi-plate clutch. One clutch assembly is 35 discs of three types (a spring disc that can face up or down, a friction disc, and a steel disc), stacked onto a shaft whose rotation is not fixed, mounted on a tray whose position is only roughly known. A UR16e with a compliant two-finger gripper and two eye-in-hand cameras (no scene camera) retrieves the discs from three magazines, which an operator loads in random orientations.
+					</p>
+					<p>
+						Four routines can be triggered to retrieve the discs. Each routine retrieves its disc from the magazine and brings it to a perch point over the workspace from which the tray is in view; the policy then performs the insertion and retreats, and the next routine is triggered. The demonstrations were collected with the routines triggered by the operator, who teleoperated only the insertion of each disc: 15 complete assemblies, i.e. 525 demonstrated insertions. The policy's best runs assembled two complete clutches, 70 consecutive insertions, without an interruption.
+					</p>
+				</div>
+				<div class="fig">
+					<img src="files/poc.jpg" alt="Clutch assembly proof of concept: a UR16e with a compliant two-finger gripper and two eye-in-hand cameras, three disc magazines above the tray with the clutch shaft">
+					<p class="caption">Clutch assembly proof of concept. The three magazines (top) hold the disc types; a routine retrieves a disc and brings it to a perch pose over the tray (bottom), where the shaft is mounted and the stack accumulates.</p>
+				</div>
 			</div>
 
+			<div class="placeholder">
+				<div class="big">Clutch-assembly video: coming soon</div>
+				<div>The rollout video of the proof of concept will be added here.</div>
+			</div>
 		</div>
 	</section>
 
@@ -155,4 +345,5 @@
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
 
-</body> </html>
+</body>
+</html>
