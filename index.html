@@ -69,19 +69,8 @@
 				<p class="caption">Accompanying video (2 min 55 s, no audio): the four TAP types during teleoperation, the learned trigger, the simulation study, the real-robot validation and the clutch-assembly proof of concept.</p>
 			</div>
 
-			<div class="figrow">
-				<div class="text">
-					<p style="margin:0;">
-						<strong>Overview.</strong> During teleoperation the operator triggers a Teleoperation Augmentation Primitive (TAP) by speech or (AR) controller input; the press and the primitive's motion are recorded with the demonstration. The policy is trained with a discrete primitive channel next to its continuous action and learns to trigger the same primitives at inference time. The mechanism is policy-agnostic: in this work the channel is carried by Diffusion Policy, a behavioural-cloning MLP (BC) and a causal-Transformer behavioural-cloning policy (BC-Transformer).
-					</p>
-				</div>
-				<div class="fig">
-					<img src="files/fig_1_HD.png" alt="Overview of Hybrid Imitation Learning: the operator triggers TAPs during demonstration; the policy learns to trigger the same TAPs">
-				</div>
-			</div>
-
 			<p><strong>Preprint:</strong> coming soon. The paper is currently under review.</p>
-			<!-- DISABLED until the paper is public (MW's go). To enable: (1) put the NON-anonymous build of the paper
+			<!-- DISABLED until the arXiv submission is updated (MW's go). To enable: (1) put the NON-anonymous build of the paper
 			     (main.tex with \anonfalse) at files/hybrid_imitation_preprint.pdf, (2) replace the "Preprint: coming soon"
 			     paragraph above with the two blocks below, (3) fill in the arXiv identifier and the venue once known.
 			<p><strong>Preprint:</strong> <a class="button mybutton" href="files/hybrid_imitation_preprint.pdf" target="_blank">Paper (PDF)</a></p>
@@ -93,6 +82,18 @@
   note   = {Preprint. TODO: eprint / archivePrefix once on arXiv; venue once accepted}
 }</code></pre>
 			-->
+
+			<div class="figrow">
+				<div class="text">
+					<p style="margin:0;">
+						<strong>Overview.</strong> During teleoperation the operator triggers a Teleoperation Augmentation Primitive (TAP) by speech or (AR) controller input; the press and the primitive's motion are recorded with the demonstration. The policy is trained with a discrete primitive channel next to its continuous action and learns to trigger the same primitives at inference time. The mechanism is policy-agnostic: in this work the channel is carried by Diffusion Policy, a behavioural-cloning MLP (BC) and a causal-Transformer behavioural-cloning policy (BC-Transformer).
+					</p>
+				</div>
+				<div class="fig">
+					<img src="files/fig_1_HD.png" alt="Overview of Hybrid Imitation Learning: the operator triggers TAPs during demonstration; the policy learns to trigger the same TAPs">
+				</div>
+			</div>
+
 		</div>
 	</section>
 
