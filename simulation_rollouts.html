@@ -10,7 +10,10 @@
     .category-title { width:100%; margin-top:40px; margin-bottom:10px; }
     .reel-grid { display:flex; flex-wrap:wrap; gap:28px; margin-bottom:30px; }
     .reel { width:320px; }
-    .reel.wide { width:480px; max-width:100%; }
+    .reel.seed { width:320px; max-width:100%; }
+    .reel-grid.tight { gap:20px; margin-bottom:6px; }
+    h4.cond { margin:28px 0 10px 0; }
+    .cap.sum { font-size:0.8em; opacity:0.9; margin:0 0 18px 0; }
     .reel h4 { margin-bottom:8px; min-height:2.6em; }
     .reel video, .pair video { display:block; width:100%; height:auto; background:#10141a; }
     .reel .cap, .pair .cap { font-size:0.8em; opacity:0.9; margin:8px 0 0 0; }
@@ -208,129 +211,172 @@
       </div>
 
       <h3 class="category-title">Every evaluation trial</h3>
-      <p>The complete evaluation set behind the tables, re-recorded with video: trial <em>t</em> starts from the initial state of evaluation seed 5000 + <em>t</em>, the same in every condition of a task. Nothing is selected, skipped or reordered. Rollouts are not bit-reproducible, so a recording's count can differ slightly from the count of the paper's own evaluation run of the same checkpoint.</p>
-      <div class="reel-grid">
-        <div class="reel wide">
-          <h4>Square, Diffusion Policy: unassisted (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_dp_un_s1.jpg">
-            <source src="videos/sim/all/square_dp_un_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 181 of 500 succeed. Paper: <strong>0.372</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+      <p>The complete evaluation set behind the tables, re-recorded with video: for every condition and training seed all 500 evaluation trials in order, eight at a time at 4&times; speed. Each tile shows its trial number and evaluation seed (trial <em>t</em> starts from the initial state of evaluation seed 5000 + <em>t</em>, the same in every condition of a task) and is stamped success or fail with the evaluator's verdict. Nothing is selected, skipped or reordered. Rollouts are not bit-reproducible (GPU convolution autotuning), so a recording's count can differ slightly from the paper's own evaluation run of the same checkpoint.</p>
+        <h4 class="cond">Square, Diffusion Policy: unassisted</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_dp_un_s1.jpg">
+              <source src="videos/sim/all/square_dp_un_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 181 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>Square, Diffusion Policy: TAP + channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_dp_tap_s1.jpg">
-            <source src="videos/sim/all/square_dp_tap_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 267 of 500 succeed. Paper: <strong>0.531</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 181 of 500 trials succeed (0.362). Paper: <strong>0.372</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">Square, Diffusion Policy: TAP + channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_dp_tap_s1.jpg">
+              <source src="videos/sim/all/square_dp_tap_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 267 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>Square, Diffusion Policy: TAP data, no channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_dp_nochan_s1.jpg">
-            <source src="videos/sim/all/square_dp_nochan_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 143 of 500 succeed. Paper: <strong>0.297</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 267 of 500 trials succeed (0.534). Paper: <strong>0.531</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">Square, Diffusion Policy: TAP data, no channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_dp_nochan_s1.jpg">
+              <source src="videos/sim/all/square_dp_nochan_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 143 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>Square, BC: unassisted (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_bc_un_s1.jpg">
-            <source src="videos/sim/all/square_bc_un_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 44 of 500 succeed. Paper: <strong>0.085</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 143 of 500 trials succeed (0.286). Paper: <strong>0.297</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">Square, BC: unassisted</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_bc_un_s1.jpg">
+              <source src="videos/sim/all/square_bc_un_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 44 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>Square, BC: TAP + channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_bc_tap_s1.jpg">
-            <source src="videos/sim/all/square_bc_tap_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 77 of 500 succeed. Paper: <strong>0.250</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 44 of 500 trials succeed (0.088). Paper: <strong>0.085</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">Square, BC: TAP + channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_bc_tap_s1.jpg">
+              <source src="videos/sim/all/square_bc_tap_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 77 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>Square, BC-Transformer: unassisted (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_bct_un_s1.jpg">
-            <source src="videos/sim/all/square_bct_un_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 149 of 500 succeed. Paper: <strong>0.263</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 77 of 500 trials succeed (0.154). Paper: <strong>0.250</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">Square, BC-Transformer: unassisted</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_bct_un_s1.jpg">
+              <source src="videos/sim/all/square_bct_un_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 149 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>Square, BC-Transformer: TAP + channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/square_bct_tap_s1.jpg">
-            <source src="videos/sim/all/square_bct_tap_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera only. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (6 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 148 of 500 succeed. Paper: <strong>0.329</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 149 of 500 trials succeed (0.298). Paper: <strong>0.263</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">Square, BC-Transformer: TAP + channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/square_bct_tap_s1.jpg">
+              <source src="videos/sim/all/square_bct_tap_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 148 of 500 trials succeed (6 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, Diffusion Policy: unassisted (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_un_s1.jpg">
-            <source src="videos/sim/all/mug_dp_un_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (7 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 124 of 500 succeed. Paper: <strong>0.203</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera only. These recordings: 148 of 500 trials succeed (0.296). Paper: <strong>0.329</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, Diffusion Policy: unassisted</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_un_s1.jpg">
+              <source src="videos/sim/all/mug_dp_un_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 124 of 500 trials succeed (7 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, Diffusion Policy: TAP + channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_tap_s1.jpg">
-            <source src="videos/sim/all/mug_dp_tap_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (8 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 162 of 500 succeed. Paper: <strong>0.323</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 124 of 500 trials succeed (0.248). Paper: <strong>0.203</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, Diffusion Policy: TAP + channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_tap_s1.jpg">
+              <source src="videos/sim/all/mug_dp_tap_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 162 of 500 trials succeed (8 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, Diffusion Policy: TAP data, no channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_nochan_s1.jpg">
-            <source src="videos/sim/all/mug_dp_nochan_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (7 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 116 of 500 succeed. Paper: <strong>0.243</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 162 of 500 trials succeed (0.324). Paper: <strong>0.323</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, Diffusion Policy: TAP data, no channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_nochan_s1.jpg">
+              <source src="videos/sim/all/mug_dp_nochan_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 116 of 500 trials succeed (7 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, Diffusion Policy: TAP + channel, gripper gate opened wide (diagnostic) (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_nogate_s1.jpg">
-            <source src="videos/sim/all/mug_dp_nogate_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (10 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 171 of 500 succeed. Paper: <strong>0.317</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 116 of 500 trials succeed (0.232). Paper: <strong>0.243</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, Diffusion Policy: TAP + channel, gripper gate opened wide (diagnostic)</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_dp_nogate_s1.jpg">
+              <source src="videos/sim/all/mug_dp_nogate_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 171 of 500 trials succeed (10 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, BC: unassisted (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bc_un_s1.jpg">
-            <source src="videos/sim/all/mug_bc_un_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (7 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 14 of 500 succeed. Paper: <strong>0.025</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 171 of 500 trials succeed (0.342). Paper: <strong>0.317</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, BC: unassisted</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bc_un_s1.jpg">
+              <source src="videos/sim/all/mug_bc_un_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 14 of 500 trials succeed (7 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, BC: TAP + channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bc_tap_s1.jpg">
-            <source src="videos/sim/all/mug_bc_tap_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (8 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 68 of 500 succeed. Paper: <strong>0.074</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 14 of 500 trials succeed (0.028). Paper: <strong>0.025</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, BC: TAP + channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bc_tap_s1.jpg">
+              <source src="videos/sim/all/mug_bc_tap_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 68 of 500 trials succeed (8 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, BC-Transformer: unassisted (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bct_un_s1.jpg">
-            <source src="videos/sim/all/mug_bct_un_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (7 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 37 of 500 succeed. Paper: <strong>0.106</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 68 of 500 trials succeed (0.136). Paper: <strong>0.074</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, BC-Transformer: unassisted</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bct_un_s1.jpg">
+              <source src="videos/sim/all/mug_bct_un_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 37 of 500 trials succeed (7 min at 4&times;).</p>
+          </div>
         </div>
-        <div class="reel wide">
-          <h4>MugCleanup, BC-Transformer: TAP + channel (training seed 1)</h4>
-          <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bct_tap_s1.jpg">
-            <source src="videos/sim/all/mug_bct_tap_s1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p class="cap">wrist camera + proprioception. All 500 evaluation trials of training seed 1, in order, eight at a time at 4&times; speed (8 min); each tile shows its trial number and evaluation seed and is stamped success or fail. This recording: 68 of 500 succeed. Paper: <strong>0.153</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 37 of 500 trials succeed (0.074). Paper: <strong>0.106</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
+        <h4 class="cond">MugCleanup, BC-Transformer: TAP + channel</h4>
+        <div class="reel-grid tight">
+          <div class="reel seed">
+            <video controls muted playsinline preload="none" poster="videos/sim/all/mug_bct_tap_s1.jpg">
+              <source src="videos/sim/all/mug_bct_tap_s1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="cap">Training seed 1: 68 of 500 trials succeed (8 min at 4&times;).</p>
+          </div>
         </div>
-      </div>
+        <p class="cap sum">wrist camera + proprioception. These recordings: 68 of 500 trials succeed (0.136). Paper: <strong>0.153</strong>, pooled over 3 training seeds &times; 500 episodes.</p>
     </div>
 </section>
 
