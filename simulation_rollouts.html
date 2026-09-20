@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Hybrid Imitation Learning - Simulation Rollouts</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+    .category-title { width:100%; margin-top:40px; margin-bottom:10px; }
+    .reel-grid { display:flex; flex-wrap:wrap; gap:28px; margin-bottom:30px; }
+    .reel { width:320px; }
+    .reel h4 { margin-bottom:8px; min-height:2.6em; }
+    .reel video, .pair video { display:block; width:100%; height:auto; background:#10141a; }
+    .reel .cap, .pair .cap { font-size:0.8em; opacity:0.9; margin:8px 0 0 0; }
+    .pair { max-width:960px; margin:0 0 28px 0; }
+    </style>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a href="index.html" class="title">Hybrid Imitation Learning: Teleoperation Augmentation Primitives that Policies Learn to Trigger</a>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<section id="main" class="wrapper style3 spotlight">
+    <div class="inner">
+        <div class="divtitle">
+            <article class="col-4 col-12-xsmall work-item">
+                <h2>Simulation rollouts: every condition of the simulation study</h2>
+            </article>
+        </div>
+
+        <p>
+            One reel per row of the paper's three simulation tables (main result, data effect vs. trigger effect, policy classes), for both tasks.
+            <strong>Square</strong> policies observe the <em>wrist camera only</em> (no proprioception, no fixed camera); <strong>MugCleanup</strong> policies observe the <em>wrist camera plus proprioception</em> (end-effector pose and gripper opening), identically in every arm of a task.
+            The large third-person view is for the viewer only; the inset is the wrist image the policy sees.
+            The green pill shows who controls the robot: the <em>policy</em>, or the primitive the policy has triggered (the <em>perching waypoint</em> on Square, the <em>carry routine</em> on MugCleanup). On MugCleanup the orange thumbnail is the wrist image at the moment the policy pressed the <em>anchor</em>, the pose the carry routine later runs relative to. Unassisted and no-channel policies have no primitive to trigger and run alone.
+        </p>
+        <p>
+            <strong>How to read the reels.</strong> Each reel is 12 <em>consecutive</em> seeded episodes (evaluation seeds 5000&ndash;5011, the same initial states in every condition of a task) from <em>one</em> training seed (seed 1), evaluated at the final checkpoint and played at 2&times; speed; no episode was selected or removed, and the squares under the picture fill in with each outcome.
+            The success rates in the paper are pooled over 3 training seeds &times; 500 episodes per condition. Rollouts are not reproducible episode by episode, so the 12 outcomes of a reel do not reproduce the table; each caption gives the paper's pooled number next to what the reel shows.
+        </p>
+
+        <h3 class="category-title">Unassisted vs. TAP demonstrations, side by side (Diffusion Policy)</h3>
+        <div class="pair">
+          <video controls muted playsinline preload="none" poster="videos/sim/square_pair.jpg">
+            <source src="videos/sim/square_pair.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square (wrist camera only in both arms), Diffusion Policy, the same initial state on both sides. Paper: unassisted <strong>0.372</strong> vs. TAP <strong>0.531</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 12 consecutive episodes from one training seed, 2&times; speed; 6 of 12 (unassisted) and 6 of 12 (TAP) succeed, which does not reproduce the table and is not meant to.</p>
+        </div>
+        <div class="pair">
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_pair.jpg">
+            <source src="videos/sim/mug_pair.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup (wrist camera + proprioception in both arms), Diffusion Policy, the same initial state on both sides. Paper: unassisted <strong>0.203</strong> vs. TAP <strong>0.323</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 12 consecutive episodes from one training seed, 2&times; speed; 3 of 12 (unassisted) and 6 of 12 (TAP) succeed, which does not reproduce the table and is not meant to.</p>
+        </div>
+
+      <h3 class="category-title">Square: main result and data effect vs. trigger effect (Diffusion Policy)</h3>
+      <p>Rows of the main-result table and of the data-vs-trigger table. &ldquo;No channel&rdquo;: trained on the TAP demonstrations without the primitive channel; the policy runs alone and must reproduce the perch move from the wrist image.</p>
+      <div class="reel-grid">
+        <div class="reel">
+          <h4>Diffusion Policy: unassisted</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_dp_un.jpg">
+            <source src="videos/sim/square_dp_un.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.372</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 6 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>Diffusion Policy: TAP data, no channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_dp_nochan.jpg">
+            <source src="videos/sim/square_dp_nochan.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.297</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 5 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>Diffusion Policy: TAP + channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_dp_tap.jpg">
+            <source src="videos/sim/square_dp_tap.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.531</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 6 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+      </div>
+
+      <h3 class="category-title">Square: TAPs across policy classes</h3>
+      <p>BC is a feed-forward MLP, BC-Transformer a causal Transformer, both with mean-squared-error heads; same demonstrations, split, seeds, image encoder, budget and evaluation as Diffusion Policy. The channel is decoded by the same rule.</p>
+      <div class="reel-grid">
+        <div class="reel">
+          <h4>BC: unassisted</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_bc_un.jpg">
+            <source src="videos/sim/square_bc_un.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.085</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 1 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>BC: TAP + channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_bc_tap.jpg">
+            <source src="videos/sim/square_bc_tap.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.250</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 1 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>BC-Transformer: unassisted</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_bct_un.jpg">
+            <source src="videos/sim/square_bct_un.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.263</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 3 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>BC-Transformer: TAP + channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/square_bct_tap.jpg">
+            <source src="videos/sim/square_bct_tap.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">Square, wrist camera only. Paper: <strong>0.329</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 3 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+      </div>
+
+      <h3 class="category-title">MugCleanup: main result and data effect vs. trigger effect (Diffusion Policy)</h3>
+      <p>&ldquo;No channel&rdquo;: trained on the TAP demonstrations without the channel; the policy must imitate the carry itself. The last reel is the gate diagnostic of the paper: the same TAP policy with the gripper gate on the carry press opened wide (0.317 against 0.323 with the gate).</p>
+      <div class="reel-grid">
+        <div class="reel">
+          <h4>Diffusion Policy: unassisted</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_dp_un.jpg">
+            <source src="videos/sim/mug_dp_un.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.203</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 3 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>Diffusion Policy: TAP data, no channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_dp_nochan.jpg">
+            <source src="videos/sim/mug_dp_nochan.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.243</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 6 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>Diffusion Policy: TAP + channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_dp_tap.jpg">
+            <source src="videos/sim/mug_dp_tap.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.323</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 6 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>Diffusion Policy: TAP + channel, gripper gate opened wide (diagnostic)</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_dp_nogate.jpg">
+            <source src="videos/sim/mug_dp_nogate.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.317</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 4 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+      </div>
+
+      <h3 class="category-title">MugCleanup: TAPs across policy classes</h3>
+      <p>Same two baselines, same protocol. BC sits near the floor on this task in both arms (37 and 111 successes of 1500 episodes in the paper), so most of its episodes here fail.</p>
+      <div class="reel-grid">
+        <div class="reel">
+          <h4>BC: unassisted</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_bc_un.jpg">
+            <source src="videos/sim/mug_bc_un.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.025</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 1 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>BC: TAP + channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_bc_tap.jpg">
+            <source src="videos/sim/mug_bc_tap.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.074</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 3 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>BC-Transformer: unassisted</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_bct_un.jpg">
+            <source src="videos/sim/mug_bct_un.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.106</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 0 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+        <div class="reel">
+          <h4>BC-Transformer: TAP + channel</h4>
+          <video controls muted playsinline preload="none" poster="videos/sim/mug_bct_tap.jpg">
+            <source src="videos/sim/mug_bct_tap.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="cap">MugCleanup, wrist camera + proprioception. Paper: <strong>0.153</strong> success, pooled over 3 training seeds &times; 500 episodes. This reel: 3 of 12 consecutive episodes succeed (training seed 1).</p>
+        </div>
+      </div>
+    </div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer" class="wrapper alt">
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; All rights reserved.</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
